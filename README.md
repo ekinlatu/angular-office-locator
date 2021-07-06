@@ -1,7 +1,14 @@
 1. To view, please run index.html file. 
 2. You can clone the repo or "Open with Github Desktop" and run the code using VSC. 
 
-How to open:
+Solution overview:-
+
+- To display branch offices in a web page using HTML, angular js and bootstrap components.
+- User can search and sort the branch offices based on the input and respective column.
+- The page is designed as responsive pages to support multiple devices.
+- In addition, this web page also is able to show the office location in google maps.
+
+How to open:-
 1. To run using Visual Studio Code (VSC):
 
 - install extension "Live Server" in the vsc.
@@ -13,4 +20,4 @@ How to open:
 Finish! :) 
 
 
-**** The epf locator is a web page that display the live map that will check your current location to the selected EPF branch with distance in KM. 
+
