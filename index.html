@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/css/style.css" />
+
+    <style>
+      /* body {
+        font: 17px Calibri;
+      }
+
+      table {
+        width: auto;
+      }
+
+      table,
+      th,
+      td {
+        border: solid 1px #ddd;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: center;
+      }*/
+    </style>
+  </head>
+
+  <body>
+    <!-- The Modal -->
+    <div
+      id="myModal"
+      class="modal bd-example-modal-lg"
+      style="display: none; max-width: 600 !important"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+        style="max-width: 800px !important"
+        role="document"
+      >
+        <div class="modal-content" style="width: auto !important">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">
+              Location details
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              onclick="javascript:document.getElementById('myModal').style.display='none'"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5>Map</h5>
+            <div id="officeMap"></div>
+            <div id="addressLbl"></div>
+            <div id="distanceLbl"></div>
+            <div id="faxNoLbl"></div>
+            <div id="hourLbl"></div>
+            <div id="servicesLbl"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              onclick="javascript:document.getElementById('myModal').style.display='none'"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-app="myApp" ng-controller="myController">
+      <div class="card">
+        <div class="card-body">
+          <img
+            style="width: 7%; margin-bottom: 15px"
+            src="../src/img/logo.png"
+          />
+          <h5 class="card-title">EPF Office Locator</h5>
+        </div>
+      </div>
+
+      <!--THE SEARCH BOX-->
+      <form class="bd-search d-flex align-items-center">
+        <div class="loc-seacrh">
+          <input
+            type="search"
+            ng-model="search"
+            aria-label="search"
+            class="form-control ds-input"
+            placeholder="Search.."
+            style="width: 400px"
+          />
+        </div>
+      </form>
+
+      <!--THE FILTER
+      
+      REFERENCE: https://stackoverflow.com/questions/42825355/filter-table-column-angular-js-based-on-drop-down
+      -->
+
+      <div style="padding: 20px">
+        <table mat-table class="table">
+          <tr>
+            <th scope="col" style="width: 80px" ng-click="sortBy('No')">
+              No<span class="fa fa-fw fa-sort"></span>
+            </th>
+            <th scope="col" ng-click="sortBy('State')">State</th>
+            <th scope="col" ng-click="sortBy('Name')">Name</th>
+            <th scope="col" ng-click="sortBy('Address')">Address</th>
+            <th scope="col" ng-click="sortBy('Distance')">Distance(KM)</th>
+            <th scope="col"></th>
+          </tr>
+
+          <tr
+            scope="row"
+            ng-repeat="birds in newList | filter : search | orderBy:sortField:reverseOrder"
+          >
+            <td>{{birds.No}}</td>
+            <td>{{birds.State}}</td>
+            <td>
+              <button
+                type="button"
+                data-toggle="myModal"
+                class="btn btn-info"
+                ng-click="viewOnMap(birds.mapUrl, birds.Address, birds.Distance, birds.Name, birds.Fax, birds.Hour, birds.Services)"
+              >
+                {{birds.Name}}
+              </button>
+            </td>
+            <td>{{birds.Address}}</td>
+            <!--<td>{{calDistance("3.2397492", "101.55472739999999", birds.Latitude, birds.Longitude, "K")}}</td>-->
+            <td>{{birds.Distance}}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                ng-click="viewDetails(birds)"
+              >
+                View
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+
+  <!--The Controller-->
+  <script type="TEXT/JAVASCRIPT">
+
+
+
+                     var userLatitude;
+                     var userLongitude;
+
+                     function openMap(mapUrl, address, distance, name, fax, hour, services) {
+                       //console.log(openMap);
+                       document.getElementById("officeMap").innerHTML = "<div>" + mapUrl +"</div><div><a class='btn btn-primary view-maps' href='http://maps.google.com/?q=" + name + "'>Open in Google Maps</a><div>";
+                       document.getElementById("addressLbl").innerHTML = "<div class='view-title'>Information</div><div class='view-info'><strong style='color:#006b8c;'>Address:  </strong>" + address + "</div>";
+                       document.getElementById("distanceLbl").innerHTML = "<div class='view-info'><strong style='color:#006b8c;'>Distance from your location:  </strong>" + distance + " KM</div>";
+                       document.getElementById("faxNoLbl").innerHTML = "<div class='view-info'><strong style='color:#006b8c;'>Fax:  </strong>" + fax;
+                       document.getElementById("hourLbl").innerHTML = "<div class='view-info'><strong style='color:#006b8c;'>Operation Hours: </strong>" + hour;
+                       document.getElementById("servicesLbl").innerHTML = "<div class='view-info'><strong style='color:#006b8c;'>Services:  </strong>" + services;
+                       document.getElementById("myModal").style.display = "block";
+                     }
+
+                     var arrUserLocation=[];
+
+                         async function getLocation() {
+                       if (navigator.geolocation) {
+                         var char = setTimeout(navigator.geolocation.getCurrentPosition(showPosition), 50000);
+                         char;
+
+                       } else {
+                         document.getElementById("userLatitude").innerHTML = "Geolocation is not supported by this browser.";
+                       }
+                     }
+
+                     function showPosition(position) {
+                       //document.getElementById("userLatitude").innerHTML = position.coords.latitude;
+                       //document.getElementById("userLongitude").innerHTML = position.coords.longitude;
+
+                       //userLatitude=  position.coords.latitdue;
+                       //userLongitude=  position.coords.longitude;
+                       arrUserLocation.push(position.coords.longitude);
+                       arrUserLocation.push(position.coords.latitude)
+
+                       //console.log(arrUserLocation);
+                     }
+
+                     getLocation();
+
+
+                     function calDistance(lat1, lon1, lat2, lon2, unit) {
+
+                       //console.log(lat1);
+                     	if ((lat1 == lat2) && (lon1 == lon2)) {
+                     		return 0;
+                     	}
+                     	else {
+                     		var radlat1 = Math.PI * lat1/180;
+                     		var radlat2 = Math.PI * lat2/180;
+                     		var theta = lon1-lon2;
+                     		var radtheta = Math.PI * theta/180;
+                     		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                     		if (dist > 1) {
+                     			dist = 1;
+                     		}
+                     		dist = Math.acos(dist);
+                     		dist = dist * 180/Math.PI;
+                     		dist = dist * 60 * 1.1515;
+                     		if (unit=="K") { dist = dist * 1.609344 }
+                     		if (unit=="N") { dist = dist * 0.8684 }
+
+
+                         //console.log(dist);
+
+                     		return dist;
+                     	}
+                     }
+
+
+                     var latLng = [];
+                     var index = 0;
+
+                         var app = angular.module('myApp', []);
+                         app.controller('myController',
+
+
+
+                             function ($scope, $http) {
+
+                                 var request = {
+                                     method: 'get',
+                                     url: 'data.json',
+                                     dataType: 'json',
+                                     contentType: "application/json"
+                                 };
+
+                                 $scope.arrBirds = new Array;
+
+
+
+                                $http(request)
+                                .success(function (jsonData) {
+                                $scope.arrBirds = jsonData;
+                                $scope.list = $scope.arrBirds;
+
+
+                                var locationLatLong = $scope.list;
+
+                            //console.log(locationLatLong);
+
+                            //console.log(arrUserLocation);
+
+                            console.log(arrUserLocation);
+
+                            //if(arrUserLocation.length > 0){
+
+
+
+
+                            for(var i = 0; i < locationLatLong.length; i++){
+
+                              var latC = locationLatLong[i].Latitude;
+                              var lngC= locationLatLong[i].Longitude;
+                            latLng[index++] = {
+                                No: locationLatLong[i].No,
+                                State:locationLatLong[i].State,
+                                Name: locationLatLong[i].Name,
+                                Address:locationLatLong[i].Address,
+                                Fax:locationLatLong[i].Fax,
+                                Hour:locationLatLong[i].Hour,
+                                Services:locationLatLong[i].Services,
+                                //Distance: parseFloat(calDistance("3.2397492", "101.55472739999999", latC, lngC, "K")).toFixed(2),
+                                Distance: parseFloat(calDistance(arrUserLocation[1], arrUserLocation[0], latC, lngC, "K")).toFixed(2),
+                                mapUrl:'<iframe class="embed-responsive-item" src="https://maps.google.com/maps?q='+ latC +', ' + lngC+ '&z=18&output=embed" height="300" width="800" frameborder="0" style="border:0"></iframe>',
+                                latB : locationLatLong[i].Latitude,
+                                lngB : locationLatLong[i].Longitude,
+                                //latA : "3.2397408999999997",
+                                //lngA : "101.5547462"
+
+
+                              };
+                            }
+                         // }
+    //console.log(latLng);
+
+    $scope.viewOnMap = function(mapUrl, address, distance, name, fax, hour, services) {
+      //console.log(mapUrl, address, distance);
+      openMap(mapUrl, address, distance, name, fax, hour, services);
+
+    }
+
+    $scope.viewDetails = function(birds) {
+      window.location.href= "view.html";
+      localStorage.clear();
+      window.localStorage.setItem("selectedItemArr", JSON.stringify(birds)); // Saving
+    }
+
+    $scope.newList= latLng;
+
+                            })
+                            .error(function () {
+
+                            });
+
+                                $scope.reverseOrder = false;
+                               $scope.sortField = 'No';
+
+
+                               $scope.sortBy = function(sortField) {
+                                 $scope.reverseOrder = ($scope.sortField === sortField) ? !$scope.reverseOrder : false;
+                                 $scope.sortField = sortField;
+                               };
+
+
+
+
+
+
+
+    });
+  </script>
+</html>

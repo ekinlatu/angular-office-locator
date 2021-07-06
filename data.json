@@ -1,0 +1,57 @@
+[
+  {
+    "No":"1",
+    "State":"Melaka",
+    "Name":"KWSP Alor Gajah",
+    "Address": "8670-Lot 10, Kompleks Perniagaan Alor Gajah, Jalan Besar,78000 Alor Gajah Melaka",
+    "Latitude":"2.3819735",
+    "Longitude":"102.2078866",
+    "Fax":"06-5565915",
+    "Hour":"Isnin – Jumaat: 8.00AM - 5.00PM",
+    "Services":"Office, Kiosk, RAS"
+  },
+  {
+    "No":"2",
+    "State":"Kedah",
+    "Name":"Kumpulan Wang Simpanan Pekerja (KWSP), Alor Setar",
+    "Address": "Ground, Mezzanine, Level 8 & 9, EPF Building Peladang, No. 33, Jalan Sultan Badlishah, 05000 Alor Setar, Kedah",
+    "Latitude":"6.1189694",
+    "Longitude":"100.3655041",
+    "Fax":"06-5565915",
+    "Hour":"Isnin – Jumaat: 8.00AM - 5.00PM",
+    "Services":"Office, Kiosk, RAS"
+  },
+  {
+    "No":"3",
+    "State":"Pahang",
+    "Name":"Pejabat KWSP Temerloh",
+    "Address": "No 128B (GF, 1F and 2F) and No 128A (GF) Persiaran Damai 1, Damai Court 28000 Temerloh Pahang",
+    "Latitude":"3.448621",
+    "Longitude":"102.4131053",
+    "Fax":"06-5565915",
+    "Hour":"Isnin – Jumaat: 8.00AM - 5.00PM",
+    "Services":"Office, Kiosk, RAS"
+  },
+  {
+    "No":"4",
+    "State":"Kuala Lumpur",
+    "Name":"KWSP Jalan Raja Chulan",
+    "Address": "Tkt Bawah, Mezzanine & 1, No. 3, Bangunan KWSP Changkat Raja Chulan Off Jalan Raja Chulan, 50200 Kuala Lumpur",
+    "Latitude":"3.149553",
+    "Longitude":"101.7030787",
+    "Fax":"06-5565915",
+    "Hour":"Isnin – Jumaat: 8.00AM - 5.00PM",
+    "Services":"Office, Kiosk, RAS"
+  },
+  {
+    "No":"5",
+    "State":"Selangor",
+    "Name":"KWSP Gombak",
+    "Address": "Lot 5, Sunway Batu Caves, 68100 Batu Caves, Selangor",
+    "Latitude":"3.236361",
+    "Longitude":"101.6909025",
+    "Fax":"06-5565915",
+    "Hour":"Isnin – Jumaat: 8.00AM - 5.00PM",
+    "Services":"Office, Kiosk, RAS"
+  }
+]

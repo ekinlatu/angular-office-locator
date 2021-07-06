@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+      /* body {
+        font: 17px Calibri;
+      }
+
+      table {
+        width: auto;
+      }
+
+      table,
+      th,
+      td {
+        border: solid 1px #ddd;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: center;
+      }*/
+    </style>
+  </head>
+
+  <body>
+    <div style="padding: 20px">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        onclick="javascript:location.href='index.html'; "
+      >
+        Go back
+      </button>
+    </div>
+    <div style="padding: 20px">
+      <div class="card-body">
+        <div class="card-title"></div>
+        <div class="card-text"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function () {
+      var item = JSON.parse(window.localStorage.getItem("selectedItemArr")); // Retrieving
+      console.log(item);
+
+      $(".card-title").html("<h2>Office Details: " + item.Name + "</h2>");
+      $(".card-text").append(
+        "<ul class='list-group list-group-flush'><li class='list-group-item'>Office: " +
+          item.Name +
+          "</li><li class='list-group-item'>State: " +
+          item.State +
+          "</li><li class='list-group-item'>Address: " +
+          item.Address +
+          "</li><li class='list-group-item'>Distance from your location: " +
+          item.Distance +
+          " KM</li><li class='list-group-item'><iframe class='embed-responsive-item' src='https://maps.google.com/maps?q=" +
+          item.latB +
+          ", " +
+          item.lngB +
+          "&z=15&output=embed' height='400' width='500' frameborder='0' style='border:0'></iframe><div><a class='btn btn-primary' style='color:white' href='http://maps.google.com/?q=" +
+          item.Name +
+          "'>Open in Google Maps</a></div></li></ul>"
+      );
+    });
+  </script>
+</html>
+ 
