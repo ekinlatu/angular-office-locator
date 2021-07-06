@@ -1,0 +1,22 @@
+.loc-seacrh{
+    padding: 20px;
+    margin-bottom: -20px;
+    display: block;
+    margin-left: auto;
+}
+.view-info {
+    font-size: 13px;
+    padding: 3px;
+}
+.view-maps{
+    color:#fff;
+    font-size:14px; 
+    margin-bottom:15px;
+}
+.view-title {
+    font-size: 15px;
+    padding: 5px;
+    text-decoration: underline;
+    font-weight: bold;
+    color: #3e3e3e;
+}
